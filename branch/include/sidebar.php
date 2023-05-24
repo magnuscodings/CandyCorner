@@ -18,6 +18,16 @@
                 <span class="material-icons-outlined">inventory_2</span> Products
             </li>
           </a>
+          <a href="cart.php" class="text-light text-decoration-none">
+            <li class="sidebar-list-item" id="nav-cart">
+                <span class="material-icons-outlined">shopping_cart_checkout</span> Cart
+            </li>
+          </a>
+          <a href="orders.php" class="text-light text-decoration-none">
+            <li class="sidebar-list-item" id="nav-orders">
+                <span class="material-icons-outlined">table_view</span> Orders
+            </li>
+          </a>
            
             <a href="include/logout.php" class="text-light text-decoration-none">
                 <li class="sidebar-list-item" >

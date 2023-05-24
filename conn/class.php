@@ -53,6 +53,19 @@
 				return true;
 			}
 		}
+		public function insertOrder($id,$order_id,$quantity,$user_id){
+			$id=htmlentities($id);
+			$order_id=htmlentities($order_id);
+			$quantity=htmlentities($quantity);
+			$user_id=htmlentities($user_id);
+
+			$query=$this->conn->prepare("INSERT INTO `orders` (`order_id`, `order_united_id`, `order_product_id`, `order_quantity`, `order_date`, `order_status`,order_user_id) 
+			VALUES (NULL, '$order_id', '$id', '$quantity', current_timestamp(), '0','$user_id')
+			") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
 		public function updateCategory($name,$id){
 			$name=htmlentities($name);
 			$id=htmlentities($id);
@@ -70,7 +83,23 @@
 				return true;
 			}
 		}
+		public function deleteCart($id,$user_id){
+			$id=htmlentities($id);
+			$user_id=htmlentities($user_id);
 
+			$query=$this->conn->prepare("DELETE FROM cart WHERE `cart`.`cart_id` = '$id' AND cart_user_id='$user_id'") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
+		public function deleteAllCart($user_id){
+			$user_id=htmlentities($user_id);
+
+			$query=$this->conn->prepare("DELETE FROM cart WHERE cart_user_id='$user_id'") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
 		public function insertProducts($name,$category,$description,$price){
 			$name=htmlentities($name);
 			$category=htmlentities($category);
@@ -139,6 +168,37 @@
 			ON a.stock_prod_id = b.prod_id
 			LEFT JOIN category as c 
 			ON b.prod_category = c.category_id") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function cartUser($id){
+			$id = htmlentities($id);
+			$query=$this->conn->prepare("SELECT * 
+			FROM `cart`  as a 
+			LEFT JOIN products as b 
+			ON a.cart_product_id = b.prod_id
+			LEFT JOIN category as c
+			ON b.prod_category = c.category_id
+			WHERE `cart_user_id` ='$id'") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+
+		public function selectOrderUser($user_id){
+			$query=$this->conn->prepare("SELECT *, 
+			GROUP_CONCAT(prod_name SEPARATOR ',') as grp_prodname,
+			GROUP_CONCAT(order_quantity SEPARATOR ',') as grp_quantity,
+			GROUP_CONCAT(prod_price SEPARATOR ',') as grp_price,
+			DATE_FORMAT(order_date, '%M %d %Y /  %h:%i:%s %p ') as order_date
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_user_id='$user_id'
+			GROUP BY order_united_id") or die($this->conn->error);
 			if($query->execute()){
 				$result = $query->get_result();
 				return $result;

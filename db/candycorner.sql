@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2023 at 12:18 AM
+-- Generation Time: May 24, 2023 at 07:10 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -35,13 +35,6 @@ CREATE TABLE `cart` (
   `cart_status` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`cart_id`, `cart_user_id`, `cart_product_id`, `cart_quantity`, `cart_status`) VALUES
-(1, 25, 1, 2, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -62,6 +55,30 @@ INSERT INTO `category` (`category_id`, `category_name`, `category_status`) VALUE
 (1, 'Candy', 0),
 (2, 'Chocolate', 0),
 (3, 'Milk', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `order_id` int(255) NOT NULL,
+  `order_united_id` int(255) NOT NULL,
+  `order_product_id` int(255) NOT NULL,
+  `order_quantity` int(11) NOT NULL,
+  `order_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `order_status` int(11) NOT NULL DEFAULT 0,
+  `order_user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `order_united_id`, `order_product_id`, `order_quantity`, `order_date`, `order_status`, `order_user_id`) VALUES
+(13, 70563, 2, 3, '2023-05-25 00:59:33', 0, 25),
+(14, 70563, 3, 2, '2023-05-25 00:59:33', 0, 25);
 
 -- --------------------------------------------------------
 
@@ -109,7 +126,9 @@ CREATE TABLE `stocks` (
 
 INSERT INTO `stocks` (`stock_id`, `stock_prod_id`, `stock_barcode`, `stock_datetime`, `stock_status`) VALUES
 (1, 2, '2-milkita-527173.png', '2023-05-22 19:00:12', 0),
-(2, 2, '2-milkita-057524.png', '2023-05-22 19:00:12', 0);
+(2, 2, '2-milkita-057524.png', '2023-05-22 19:00:12', 0),
+(3, 1, '1-toblerone-965363.png', '2023-05-24 21:00:42', 0),
+(4, 1, '1-toblerone-484817.png', '2023-05-24 21:00:42', 0);
 
 -- --------------------------------------------------------
 
@@ -161,6 +180,12 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`category_id`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -187,13 +212,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cart_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -205,7 +236,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `stocks`
 --
 ALTER TABLE `stocks`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
