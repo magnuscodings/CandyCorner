@@ -28,7 +28,7 @@
                 <span class="material-icons-outlined">fact_check</span> Inventory
             </li>
             </a>
-                <a href="products.php" class="text-light text-decoration-none">
+                <a href="orders.php" class="text-light text-decoration-none">
                 <li class="sidebar-list-item"  id="nav-order">
                 <span class="material-icons-outlined">add_shopping_cart</span> Purchase Order
             </li>

@@ -120,7 +120,16 @@
 				return true;
 			}
 		}
-		
+		public function insertOrderRecords($user_id,$order_id,$status){
+			$user_id=htmlentities($user_id);
+			$order_id=htmlentities($order_id);
+			$status=htmlentities($status);
+
+			$query=$this->conn->prepare("INSERT INTO `order_records` (`order_record_id`, `order_record_user_id`,order_record_order_id, `order_record_status`, `order_record_date`) VALUES (NULL, '$user_id','$order_id', '$status', current_timestamp())") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
 		public function updateProducts($id,$name,$category,$description,$price){
 			$id=htmlentities($id);
 			$name=htmlentities($name);
@@ -133,6 +142,18 @@
 				return true;
 			}
 		}
+		public function updateStatusOrder($user_id,$order_id,$status){
+			$user_id=htmlentities($user_id);
+			$order_id=htmlentities($order_id);
+			$status=htmlentities($status);
+
+			$query=$this->conn->prepare("UPDATE `orders` SET `order_status` = '$status' WHERE `orders`.`order_united_id` = '$order_id' && `orders`.`order_user_id` = '$user_id';") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
+		
+
 		public function deactivateProducts($id){
 			$id=htmlentities($id);
 
@@ -204,7 +225,26 @@
 				return $result;
 			}
 		}
-
+		public function selectOrders(){
+			$query=$this->conn->prepare("SELECT *, 
+			GROUP_CONCAT(prod_name SEPARATOR ',') as grp_prodname,
+			GROUP_CONCAT(order_quantity SEPARATOR ',') as grp_quantity,
+			GROUP_CONCAT(prod_price SEPARATOR ',') as grp_price,
+			GROUP_CONCAT('P',prod_price SEPARATOR ',') as grp_prices,
+			DATE_FORMAT(order_date, '%M %d %Y /  %h:%i:%s %p ') as order_date
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			LEFT JOIN category as c
+			ON b.prod_category = c.category_id
+			LEFT JOIN users as d 
+            ON a.order_user_id = d.u_id
+			GROUP BY order_united_id") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
 		
 	}
 	

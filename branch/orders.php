@@ -26,7 +26,14 @@ include("include/sidebar.php");
                             $result= $db->selectOrderUser($_SESSION['user_id']);
                             $i=1;
                             while($row=$result->fetch_array()){
-
+                                $status = $row['order_status'];
+                                if($status==0){
+                                    $action="<button class='btn btn-secondary'>Pending</button>";
+                                }else if($status==2){
+                                    $action="<button class='btn btn-secondary'>Preparing items</button>";
+                                }else if($status==1){
+                                    $action="<button class='btn btn-danger'>Rejected</button>";
+                                }
                                 echo 
                                 '<tr>
                                     <td>'.$i.'</td>
@@ -35,15 +42,7 @@ include("include/sidebar.php");
                                     <td>'.$row['grp_price'].'</td>
                                     <td>'.$row['order_date'].'</td>
                                     
-                                    <td class="text-center">
-                                        <button class="btn orderTogler btn-success"
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#order"
-                                        data-id="'.$row['prod_id'].'"
-                                        data-price="'.$row['prod_price'].'"
-                                        data-name="'.ucfirst($row['prod_name']).'"
-                                        >Pending</button>
-                                    </td>
+                                    <td class="text-center">'.$action.'</td>
                                 </tr>';
                                 $i++;
                             }

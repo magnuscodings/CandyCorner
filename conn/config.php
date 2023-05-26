@@ -24,4 +24,15 @@
 		}
 		
 	}
+	function statusReport($status){
+		if($status == 0){
+			return "Pending";
+		}else if($status==1){
+			return "Rejected";
+		}else if($status==2){
+			return "Accepted";
+		}else if($status==3){
+			return "On the way";
+		}
+	}
 ?>
