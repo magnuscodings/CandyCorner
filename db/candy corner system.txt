@@ -1,0 +1,39 @@
+Admin side
+Crud products
+Adding Stocks
+Crud category
+Records
+Sales history
+Adding merchants
+
+Checker
+- Branch orders
+- print order with tracking order
+- see inventory stocks
+- sales history
+
+Merchant
+- dashboard
+- branch order
+- create and order
+- Track order
+-REPORTS
+
+If tama po pagkakaintindi ko
+1. Order si branch 
+2. Makita ni admin yung order then papasa nya sa checker with date.
+3. Peprepared ni checker yung order ni branch. ("Ready to deliver")
+
+-----
+
+Pullout 
+1. Request (Reason, Expiration)
+sent to admin 
+2. Admin Approve or reject
+then schedule when kunin 
+Sent response to branch
+3. Pag nakuha na
+Sent response to admin.
+4. Pag nareive ni admin set received then i aadd sa pullout records sa inventory (Branch name and date)
+
+LALAGAY DIN YUNG TRACKORDER SA ADMIN

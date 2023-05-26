@@ -1,0 +1,76 @@
+Title: Web-based Warehouse Management system for Candy corner...
+
+
+
+ADMIN (ng Warehouse)
+
+Dashboard
+Product 
+Merchants
+Stock Entry
+Stock In
+Stock Adjustment 
+Category
+Brand List
+Records 
+Sales History 
+Store Settings
+User Setting
+Log Out
+
+
+
+CHECKER (ng Warehouse)
+
+DASHBOARD
+
+*BRANCH ORDER
+settle order (products)
+Print order  para sa pickier po
+tracking order
+
+*INVENTORY STOCKS
+products
+
+*SALES REPORT
+history
+
+*SETTINGS
+void/edit with authentication (Admin)
+
+*Logout
+
+
+--------------------------
+
+Merchant (/Seller Branch)
+
+DASHBOARD
+
+*BRANCH ORDER
+settle order
+tracking order
+report
+
+
+*Logout
+
+
+
+
+For order
+
+Maq oorder c BRANCH  Sumbit papasok kay ADMIN order maqseset ng schedule kung kelan dedeliver at forward kay CHECKER paqnaprepared na ni checker marked as ready to deliver go signal ni admin and monitor ni admin paq dating kay branch marked as "delivered"
+
+Para sa paqpullout nmn mula sa branch 
+
+Request for pullout with reason and expiration then submit recieved by admin then approved if valid reason 
+C admin set schedule para kunin yung ipullout at maq rerequest  sa tao nila na kunin then marked recieved kapaq andun na then sa inventory maq rerecord ng add para maisama sya sa inventory with marked pullout by name branch with date
+
+And sa inventory monitoring
+
+*Beginning  *Pullout *Deliver *expiration date *ending
+
+Inventory
+
+Items,description,quantity,exp.

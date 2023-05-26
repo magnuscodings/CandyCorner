@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2023 at 07:10 PM
+-- Generation Time: May 26, 2023 at 12:01 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -77,8 +77,32 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `order_united_id`, `order_product_id`, `order_quantity`, `order_date`, `order_status`, `order_user_id`) VALUES
-(13, 70563, 2, 3, '2023-05-25 00:59:33', 0, 25),
-(14, 70563, 3, 2, '2023-05-25 00:59:33', 0, 25);
+(13, 70563, 2, 3, '2023-05-25 00:59:33', 2, 25),
+(14, 70563, 3, 2, '2023-05-25 00:59:33', 2, 25),
+(15, 829005, 2, 3, '2023-05-26 00:31:09', 1, 25),
+(16, 829005, 3, 10, '2023-05-26 00:31:09', 1, 25);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_records`
+--
+
+CREATE TABLE `order_records` (
+  `order_record_id` int(11) NOT NULL,
+  `order_record_user_id` int(11) NOT NULL,
+  `order_record_order_id` int(255) NOT NULL,
+  `order_record_status` int(11) NOT NULL,
+  `order_record_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `order_records`
+--
+
+INSERT INTO `order_records` (`order_record_id`, `order_record_user_id`, `order_record_order_id`, `order_record_status`, `order_record_date`) VALUES
+(6, 25, 70563, 2, '2023-05-26 02:16:07'),
+(7, 25, 829005, 1, '2023-05-26 02:19:09');
 
 -- --------------------------------------------------------
 
@@ -186,6 +210,12 @@ ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`);
 
 --
+-- Indexes for table `order_records`
+--
+ALTER TABLE `order_records`
+  ADD PRIMARY KEY (`order_record_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -212,7 +242,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `cart_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -224,7 +254,13 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `order_records`
+--
+ALTER TABLE `order_records`
+  MODIFY `order_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `products`
