@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2023 at 12:01 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
+-- Generation Time: May 29, 2023 at 01:51 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,7 +33,7 @@ CREATE TABLE `cart` (
   `cart_product_id` int(11) NOT NULL,
   `cart_quantity` int(11) NOT NULL,
   `cart_status` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -45,7 +45,7 @@ CREATE TABLE `category` (
   `category_id` int(11) NOT NULL,
   `category_name` text DEFAULT NULL,
   `category_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `category`
@@ -55,6 +55,30 @@ INSERT INTO `category` (`category_id`, `category_name`, `category_status`) VALUE
 (1, 'Candy', 0),
 (2, 'Chocolate', 0),
 (3, 'Milk', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory_records`
+--
+
+CREATE TABLE `inventory_records` (
+  `inventory_record_id` int(11) NOT NULL,
+  `inventory_record_prod_id` int(11) NOT NULL,
+  `inventory_record_order_id` int(11) NOT NULL,
+  `inventory_record_status` int(11) DEFAULT 0,
+  `inventory_record_date` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `inventory_records`
+--
+
+INSERT INTO `inventory_records` (`inventory_record_id`, `inventory_record_prod_id`, `inventory_record_order_id`, `inventory_record_status`, `inventory_record_date`) VALUES
+(2, 3, 829005, 1, '2023-05-27 20:21:34'),
+(3, 1, 70563, 1, '2023-05-27 20:23:51'),
+(4, 2, 70563, 1, '2023-05-27 20:23:58'),
+(5, 4, 70563, 1, '2023-05-27 20:24:04');
 
 -- --------------------------------------------------------
 
@@ -70,17 +94,17 @@ CREATE TABLE `orders` (
   `order_date` datetime NOT NULL DEFAULT current_timestamp(),
   `order_status` int(11) NOT NULL DEFAULT 0,
   `order_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`order_id`, `order_united_id`, `order_product_id`, `order_quantity`, `order_date`, `order_status`, `order_user_id`) VALUES
-(13, 70563, 2, 3, '2023-05-25 00:59:33', 2, 25),
-(14, 70563, 3, 2, '2023-05-25 00:59:33', 2, 25),
-(15, 829005, 2, 3, '2023-05-26 00:31:09', 1, 25),
-(16, 829005, 3, 10, '2023-05-26 00:31:09', 1, 25);
+(13, 70563, 2, 2, '2023-05-25 00:59:33', 5, 25),
+(14, 70563, 3, 2, '2023-05-25 00:59:33', 5, 25),
+(15, 829005, 2, 3, '2023-05-26 00:31:09', 2, 25),
+(16, 829005, 3, 10, '2023-05-26 00:31:09', 2, 25);
 
 -- --------------------------------------------------------
 
@@ -94,15 +118,16 @@ CREATE TABLE `order_records` (
   `order_record_order_id` int(255) NOT NULL,
   `order_record_status` int(11) NOT NULL,
   `order_record_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `order_records`
 --
 
 INSERT INTO `order_records` (`order_record_id`, `order_record_user_id`, `order_record_order_id`, `order_record_status`, `order_record_date`) VALUES
-(6, 25, 70563, 2, '2023-05-26 02:16:07'),
-(7, 25, 829005, 1, '2023-05-26 02:19:09');
+(13, 25, 70563, 3, '2023-05-27 20:24:39'),
+(14, 25, 70563, 4, '2023-05-27 20:47:27'),
+(15, 25, 70563, 5, '2023-05-27 21:29:07');
 
 -- --------------------------------------------------------
 
@@ -117,7 +142,7 @@ CREATE TABLE `products` (
   `prod_description` text DEFAULT NULL,
   `prod_price` text DEFAULT NULL,
   `prod_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `products`
@@ -128,7 +153,7 @@ INSERT INTO `products` (`prod_id`, `prod_name`, `prod_category`, `prod_descripti
 (2, 'milkita', 3, 'matamis kulay whites', '23', 0),
 (3, 'toblerone', 2, 'masarap', '125', 0),
 (4, 'Max', 1, 'masakit sa ngipen', '1', 0),
-(5, 'asdasd', 1, 'asda', '23', 1);
+(5, 'asdasd', 1, 'asda', '23', 0);
 
 -- --------------------------------------------------------
 
@@ -142,17 +167,17 @@ CREATE TABLE `stocks` (
   `stock_barcode` text NOT NULL,
   `stock_datetime` datetime NOT NULL DEFAULT current_timestamp(),
   `stock_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `stocks`
 --
 
 INSERT INTO `stocks` (`stock_id`, `stock_prod_id`, `stock_barcode`, `stock_datetime`, `stock_status`) VALUES
-(1, 2, '2-milkita-527173.png', '2023-05-22 19:00:12', 0),
-(2, 2, '2-milkita-057524.png', '2023-05-22 19:00:12', 0),
-(3, 1, '1-toblerone-965363.png', '2023-05-24 21:00:42', 0),
-(4, 1, '1-toblerone-484817.png', '2023-05-24 21:00:42', 0);
+(1, 2, '2-milkita-527173.png', '2023-05-22 19:00:12', 1),
+(2, 2, '2-milkita-057524.png', '2023-05-22 19:00:12', 1),
+(3, 1, '1-toblerone-965363.png', '2023-05-24 21:00:42', 1),
+(4, 1, '1-toblerone-484817.png', '2023-05-24 21:00:42', 1);
 
 -- --------------------------------------------------------
 
@@ -167,7 +192,7 @@ CREATE TABLE `users` (
   `u_name` text NOT NULL,
   `u_type` int(255) NOT NULL DEFAULT 0,
   `u_status` int(255) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -175,17 +200,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`u_id`, `u_email`, `u_password`, `u_name`, `u_type`, `u_status`) VALUES
 (1, 'admin@admin', 'admin@admin', 'Administrator', 2, 0),
-(11, 'employee@employee', 'employee@employee', 'Employee', 0, 0),
-(16, 'daniel@daniel', 'daniel@daniel', 'daniel', 0, 0),
-(17, 'daniel@daniel2', 'daniel@daniel', 'daniel', 0, 0),
-(18, 'daniel@daniel23', 'daniel@daniel', 'daniel', 0, 0),
-(19, 'asd@asd', 'asd@asd', 'asdasd', 0, 0),
-(20, 'asdasd2@asd', 'asdasd2@asd', 'asdasd', 0, 0),
-(21, 'asdasd@asaaa', 'asdasd@asaaa', 'asdasd@asaaa', 0, 0),
-(22, 'dasdasd@aqsedas', 'dasdasd@aqsedas', 'asdas', 0, 0),
-(23, 'asda@asds', 'asda@asds', 'asda', 0, 0),
-(24, 'dasd@asdasdasd', 'dasd@asdasdasd', 'asdas', 0, 0),
-(25, 'branch1@branch1', 'branch1@branch1', 'branch1', 0, 0);
+(25, 'branch1@branch1', 'branch1@branch1', 'branch1', 0, 0),
+(26, 'checker@checker', 'checker@checker', 'Checker', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -202,6 +218,12 @@ ALTER TABLE `cart`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`category_id`);
+
+--
+-- Indexes for table `inventory_records`
+--
+ALTER TABLE `inventory_records`
+  ADD PRIMARY KEY (`inventory_record_id`);
 
 --
 -- Indexes for table `orders`
@@ -251,6 +273,12 @@ ALTER TABLE `category`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `inventory_records`
+--
+ALTER TABLE `inventory_records`
+  MODIFY `inventory_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
@@ -260,7 +288,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `order_records`
 --
 ALTER TABLE `order_records`
-  MODIFY `order_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `order_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -278,7 +306,7 @@ ALTER TABLE `stocks`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `u_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
