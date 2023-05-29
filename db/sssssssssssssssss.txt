@@ -1,7 +1,4 @@
 Title: Web-based Warehouse Management system for Candy corner...
-
-
-
 ADMIN (ng Warehouse)
 
 Dashboard
@@ -17,8 +14,6 @@ Sales History
 Store Settings
 User Setting
 Log Out
-
-
 
 CHECKER (ng Warehouse)
 

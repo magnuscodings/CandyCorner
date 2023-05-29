@@ -41,7 +41,7 @@ include("include/sidebar.php");
                                 <tr>
                                     <td>'.$i.'</td>
                                     <td>'.ucfirst($row['prod_name']).'</td>
-                                    <td><input type="number" min="1" required class="form-control qty" name="quantity[]" id="'.$row['prod_id'].'" value="1"></td>
+                                    <td><input type="number" min="1" required class="form-control qty" name="quantity[]" id="'.$row['prod_id'].'" value="'.$row['cart_quantity'].'"></td>
                                    
                                     <td>P'.number_format($row['prod_price'],2).'</td>
                                     <td class="subs" id="sub'.$row['prod_id'].'">P'.number_format($row['prod_price'],2).'</td>
