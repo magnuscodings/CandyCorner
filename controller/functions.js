@@ -54,6 +54,8 @@ function login(){
                                   }else if(response==0){
                                     alert('Success Login')
                                     window.location="branch/"
+                                  }else if(response==3){
+                                    alert('Failed Login')
                                   }
                   },
                   error: function(xhr, status, error) {

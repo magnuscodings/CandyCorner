@@ -30,9 +30,13 @@
 		}else if($status==1){
 			return "Rejected";
 		}else if($status==2){
-			return "Accepted";
+			return "Preparing";
 		}else if($status==3){
+			return "Waiting for delivery";
+		}else if($status==4){
 			return "On the way";
+		}else if($status==5){
+			return "Delivered";
 		}
 	}
 ?>

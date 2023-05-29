@@ -1,19 +1,17 @@
 <?php 
 require_once "../../conn/class.php";
-require '../../vendor/autoload.php';
 
-use Picqer\Barcode\BarcodeGeneratorPNG;
 $db = new db_class();
 session_start();
-if($_SESSION['user_type']==2){
+if($_SESSION['user_type']==0){
 
 print_r($_SESSION);
     {// Category
-        if(isset($_GET['status'])){
-            $status = htmlentities($_GET['status']);
-            $user = htmlentities($_GET['user']);
+        if(isset($_SESSION['user_id'])){
+            $status = htmlentities(5);
+            $user = htmlentities($_SESSION['user_id']);
             $order_id = htmlentities($_GET['id']);
-            if($status==2 || $status==1 || $status==4){
+            if($status==5 && isset($_SESSION['user_id'])){
                 if($db->insertOrderRecords($user,$order_id,$status) && $db->updateStatusOrder($user,$order_id,$status)){
                     header('Location:../orders.php');
                 }else{

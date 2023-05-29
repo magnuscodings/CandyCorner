@@ -30,10 +30,12 @@ if(isset($_POST['login'])){
                     echo '1';
                 }else if($get_id['u_type']==2){
                     echo '2';
+                }else{
+                    echo '3';
                 }
                 
             }else{
-                echo 'invalid';
+                echo '3';
             }
     } catch (\Throwable $th) {
        echo '3';

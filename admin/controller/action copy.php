@@ -13,7 +13,13 @@ print_r($_SESSION);
             $status = htmlentities($_GET['status']);
             $user = htmlentities($_GET['user']);
             $order_id = htmlentities($_GET['id']);
-            if($status==2 || $status==1 || $status==4){
+            if($status==2){
+                if($db->insertOrderRecords($user,$order_id,$status) && $db->updateStatusOrder($user,$order_id,$status)){
+                    header('Location:../orders.php');
+                }else{
+                    header('Location:../orders.php');
+                }
+            }else if($status==1){
                 if($db->insertOrderRecords($user,$order_id,$status) && $db->updateStatusOrder($user,$order_id,$status)){
                     header('Location:../orders.php');
                 }else{

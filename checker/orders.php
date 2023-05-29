@@ -15,43 +15,38 @@ include("include/sidebar.php");
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Branch Name</th>
+                            <th>ID</th>
+                            <th>Branch</th>
                             <th>Products</th>
                             <th>Quantity</th>
                             <th>Products</th>
-                            <th>Date Order</th>
+                            <th>Date / Time</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
                        <?php 
-                        $result= $db->selectOrders();
+                        $result= $db->CheckerSelectOrders();
                         $i=1;
                         while($row=$result->fetch_array()){
                             $status = $row['order_status'];
                             $id = $row['order_united_id'];
                             $user_id = $row['order_user_id'];
+                            $qty = $row['grp_quantity'];
+                            $prod_id = $row['grp_prodid'];
                             $action="";
 
-                            if($status==0){
-                                $accept = status($id,$user_id,2,'Accept');
-                                $decline = status($id,$user_id,1,'Decline');
-                                $action = $accept.$decline;
-                            }else if($status==4){
-                                $action="<button class='btn btn-secondary'>On Delivery</button>";
-                            }else if($status==3){
-                                $action="<a href='controller/action.php?id=".$id."&status=4&user=".$user_id."' class='btn btn-primary'>Go for delivery</a>";
-                            }else if($status==2){
-                                $action="<button class='btn btn-secondary'>Pending in checker</button>";
-                            }else if($status==1){
-                                $action="<button class='btn btn-danger'>Not Available</button>";
+                            if($status==2){
+                                $change = status($id,$user_id,3,'Order Ready',$prod_id,$qty);
+                                $action = $change;
                             }
                             $status = statusReport($row['order_status']);
                             
                             echo 
                             '<tr>
                                 <td>'.$i.'</td>
+                                <td>'.$id.'</td>
                                 <td>'.ucfirst($row['u_name']).'</td>
                                 <td>'.ucfirst($row['grp_prodname']).'</td>
                                 <td>'.ucfirst($row['grp_quantity']).'</td>
@@ -77,18 +72,35 @@ include("include/sidebar.php");
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalLabel">Add Category</h1>
+        <h1 class="modal-title fs-5" id="modalLabel">Order Ready</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
       <p class="small" id="textForm">Fill out Required fields.</p>
-        <form action="#" id="categoryForm" >
+        <form action="#" id="readyForm" >
             <div class="row" id="rowForm">
                 <div class="col-sm-12 mb-2">
                     <div class="form-group form-group-default">
-                        <label>Category Name:</label>
-                        <input type="text" id="id" name="id" hidden>
-                        <input type="text" placeholder="Category Name" id="name" name="name" required class="form-control">
+                        <label class="pb-2">Select Products Ready :</label>
+                        
+                        <?php 
+                         $result= $db->CheckerStocks();
+                         $i=1;
+                         while($row=$result->fetch_array()){
+                            echo '
+                            <div class="row">
+                                    <div class="col-1">
+                                        <input type="checkbox" value="'.$row['stock_id'].'" data-id="check'.$row['stock_prod_id'].'" name="id[]" class="checkbox m-2 ">
+                                    </div>
+                                    <div class="col-10">
+                                        <p>'.ucwords($row['prod_name']).'
+                                        <img width="300" src="../assets/img/barcode/'.$row['stock_barcode'].'">
+                                        </p>
+                                    </div>
+                                </div>
+                            ';
+                         }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -114,18 +126,10 @@ include("include/js.php");
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <script src="controller/functions.js"></script>
-<script>
-    $('.togler').click(function(){
-    $('#id').val($(this).attr('data-id'))
-
-}) 
-</script>
 <?php 
-function status($id,$user_id,$status,$text){
-    if($status==2){
+function status($id,$user_id,$status,$text,$prod_id,$qty){
+    if($status==3){
         return '<a class="btn btn-success" href="controller/action.php?id='.$id.'&status='.$status.'&user='.$user_id.'" >'.ucfirst($text).'</a> ';
-    }else if($status==1){
-        return '<a class="btn btn-danger" href="controller/action.php?id='.$id.'&status='.$status.'&user='.$user_id.'" >'.ucfirst($text).'</a> ';
     }
 }
 ?>

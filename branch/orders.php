@@ -27,12 +27,20 @@ include("include/sidebar.php");
                             $i=1;
                             while($row=$result->fetch_array()){
                                 $status = $row['order_status'];
+                                $id = $row['order_united_id'];
+
                                 if($status==0){
                                     $action="<button class='btn btn-secondary'>Pending</button>";
                                 }else if($status==2){
                                     $action="<button class='btn btn-secondary'>Preparing items</button>";
                                 }else if($status==1){
                                     $action="<button class='btn btn-danger'>Rejected</button>";
+                                }else if($status==3){
+                                    $action="<button class='btn btn-primary'>Ready for delivery</button>";
+                                }else if($status==4){
+                                    $action="<a href='controller/action.php?id=".$id."' class='btn btn-primary'>On the way / Order received</a>";
+                                }else if($status==5){
+                                    $action="<a class='btn btn-success'>Received</a>";
                                 }
                                 echo 
                                 '<tr>

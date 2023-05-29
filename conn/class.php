@@ -75,6 +75,27 @@
 				return true;
 			}
 		}
+		public function updateStocks($status,$id){
+			$status=htmlentities($status);
+			$id=htmlentities($id);
+
+			$query=$this->conn->prepare("UPDATE `stocks` SET `stock_status` = '$status' WHERE `stocks`.`stock_id` = '$id';") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
+		public function insertInventoryRecords($status,$id,$order_id){
+			$status=htmlentities($status);
+			$id=htmlentities($id);
+			$order_id=htmlentities($order_id);
+
+			$query=$this->conn->prepare("INSERT INTO `inventory_records` (`inventory_record_id`, `inventory_record_prod_id`, `inventory_record_order_id`, `inventory_record_status`, `inventory_record_date`) VALUES (NULL, '$id', '$order_id', '$status', current_timestamp())") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
+		
+
 		public function deactivateCategory($id){
 			$id=htmlentities($id);
 
@@ -240,6 +261,40 @@
 			LEFT JOIN users as d 
             ON a.order_user_id = d.u_id
 			GROUP BY order_united_id") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function CheckerSelectOrders(){
+			$query=$this->conn->prepare("SELECT *, 
+			GROUP_CONCAT(prod_name SEPARATOR ',') as grp_prodname,
+			GROUP_CONCAT(' -> ', prod_name,' -> ', order_quantity SEPARATOR ',') as grp_order,
+			GROUP_CONCAT(prod_id SEPARATOR ',') as grp_prodid,
+			GROUP_CONCAT(order_quantity SEPARATOR ',') as grp_quantity,
+			GROUP_CONCAT(prod_price SEPARATOR ',') as grp_price,
+			GROUP_CONCAT('P',prod_price SEPARATOR ',') as grp_prices,
+			DATE_FORMAT(order_date, '%M %d %Y /  %h:%i:%s %p ') as order_date
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			LEFT JOIN category as c
+			ON b.prod_category = c.category_id
+			LEFT JOIN users as d 
+            ON a.order_user_id = d.u_id
+			WHERE order_status=2
+			GROUP BY order_united_id") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function CheckerStocks(){
+			$query=$this->conn->prepare("SELECT * 
+			FROM `stocks` as a
+			LEFT JOIN products as b 
+			ON a.stock_prod_id = b.prod_id
+			WHERE stock_status=0") or die($this->conn->error);
 			if($query->execute()){
 				$result = $query->get_result();
 				return $result;
