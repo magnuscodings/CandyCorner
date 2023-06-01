@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2023 at 01:51 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Jun 01, 2023 at 11:29 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,7 +33,7 @@ CREATE TABLE `cart` (
   `cart_product_id` int(11) NOT NULL,
   `cart_quantity` int(11) NOT NULL,
   `cart_status` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -45,7 +45,7 @@ CREATE TABLE `category` (
   `category_id` int(11) NOT NULL,
   `category_name` text DEFAULT NULL,
   `category_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `category`
@@ -68,7 +68,7 @@ CREATE TABLE `inventory_records` (
   `inventory_record_order_id` int(11) NOT NULL,
   `inventory_record_status` int(11) DEFAULT 0,
   `inventory_record_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `inventory_records`
@@ -94,7 +94,7 @@ CREATE TABLE `orders` (
   `order_date` datetime NOT NULL DEFAULT current_timestamp(),
   `order_status` int(11) NOT NULL DEFAULT 0,
   `order_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `orders`
@@ -104,7 +104,14 @@ INSERT INTO `orders` (`order_id`, `order_united_id`, `order_product_id`, `order_
 (13, 70563, 2, 2, '2023-05-25 00:59:33', 5, 25),
 (14, 70563, 3, 2, '2023-05-25 00:59:33', 5, 25),
 (15, 829005, 2, 3, '2023-05-26 00:31:09', 2, 25),
-(16, 829005, 3, 10, '2023-05-26 00:31:09', 2, 25);
+(16, 829005, 3, 10, '2023-05-26 00:31:09', 2, 25),
+(17, 510604, 1, 2, '2023-05-29 20:00:06', 2, 25),
+(18, 510604, 4, 3, '2023-05-29 20:00:06', 2, 25),
+(19, 317662, 5, 2, '2023-05-29 20:01:32', 2, 25),
+(20, 317662, 4, 3, '2023-05-29 20:01:32', 2, 25),
+(21, 102278, 2, 3, '2023-05-29 20:12:13', 5, 25),
+(22, 102278, 4, 2, '2023-05-29 20:12:13', 5, 25),
+(23, 134565, 4, 2, '2023-05-29 22:31:54', 2, 25);
 
 -- --------------------------------------------------------
 
@@ -118,7 +125,7 @@ CREATE TABLE `order_records` (
   `order_record_order_id` int(255) NOT NULL,
   `order_record_status` int(11) NOT NULL,
   `order_record_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `order_records`
@@ -127,7 +134,14 @@ CREATE TABLE `order_records` (
 INSERT INTO `order_records` (`order_record_id`, `order_record_user_id`, `order_record_order_id`, `order_record_status`, `order_record_date`) VALUES
 (13, 25, 70563, 3, '2023-05-27 20:24:39'),
 (14, 25, 70563, 4, '2023-05-27 20:47:27'),
-(15, 25, 70563, 5, '2023-05-27 21:29:07');
+(15, 25, 70563, 5, '2023-05-27 21:29:07'),
+(16, 25, 510604, 2, '2023-05-29 20:00:26'),
+(17, 25, 317662, 2, '2023-05-29 20:01:45'),
+(18, 25, 102278, 2, '2023-05-29 20:12:37'),
+(19, 25, 102278, 3, '2023-05-29 20:12:58'),
+(20, 25, 102278, 4, '2023-05-29 20:13:36'),
+(21, 25, 102278, 5, '2023-05-29 20:13:52'),
+(22, 25, 134565, 2, '2023-05-29 22:32:40');
 
 -- --------------------------------------------------------
 
@@ -142,7 +156,7 @@ CREATE TABLE `products` (
   `prod_description` text DEFAULT NULL,
   `prod_price` text DEFAULT NULL,
   `prod_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `products`
@@ -151,7 +165,6 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`prod_id`, `prod_name`, `prod_category`, `prod_description`, `prod_price`, `prod_status`) VALUES
 (1, 'toblerone', 2, 'masarap sya matamisss', '150', 0),
 (2, 'milkita', 3, 'matamis kulay whites', '23', 0),
-(3, 'toblerone', 2, 'masarap', '125', 0),
 (4, 'Max', 1, 'masakit sa ngipen', '1', 0),
 (5, 'asdasd', 1, 'asda', '23', 0);
 
@@ -167,7 +180,7 @@ CREATE TABLE `stocks` (
   `stock_barcode` text NOT NULL,
   `stock_datetime` datetime NOT NULL DEFAULT current_timestamp(),
   `stock_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `stocks`
@@ -192,7 +205,7 @@ CREATE TABLE `users` (
   `u_name` text NOT NULL,
   `u_type` int(255) NOT NULL DEFAULT 0,
   `u_status` int(255) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
@@ -264,7 +277,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `cart_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -282,13 +295,13 @@ ALTER TABLE `inventory_records`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `order_records`
 --
 ALTER TABLE `order_records`
-  MODIFY `order_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `order_record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `products`
