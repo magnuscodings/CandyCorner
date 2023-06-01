@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2023 at 01:51 PM
+-- Generation Time: Jun 01, 2023 at 04:14 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -102,7 +102,7 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`order_id`, `order_united_id`, `order_product_id`, `order_quantity`, `order_date`, `order_status`, `order_user_id`) VALUES
 (13, 70563, 2, 2, '2023-05-25 00:59:33', 5, 25),
-(14, 70563, 3, 2, '2023-05-25 00:59:33', 5, 25),
+(14, 70563, 5, 2, '2023-05-25 00:59:33', 5, 25),
 (15, 829005, 2, 3, '2023-05-26 00:31:09', 2, 25),
 (16, 829005, 3, 10, '2023-05-26 00:31:09', 2, 25);
 
@@ -158,6 +158,30 @@ INSERT INTO `products` (`prod_id`, `prod_name`, `prod_category`, `prod_descripti
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `request`
+--
+
+CREATE TABLE `request` (
+  `request_id` int(11) NOT NULL,
+  `request_user_id` int(11) NOT NULL,
+  `request_prod_id` int(11) NOT NULL,
+  `request_qty` text NOT NULL,
+  `request_reason` text NOT NULL,
+  `request_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `request_status` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `request`
+--
+
+INSERT INTO `request` (`request_id`, `request_user_id`, `request_prod_id`, `request_qty`, `request_reason`, `request_date`, `request_status`) VALUES
+(1, 25, 5, '2', 'sira na lagayan', '2023-06-01 21:35:39', 0),
+(2, 25, 2, '5', 'sira na kasi lagayan', '2023-06-01 21:36:47', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `stocks`
 --
 
@@ -177,7 +201,20 @@ INSERT INTO `stocks` (`stock_id`, `stock_prod_id`, `stock_barcode`, `stock_datet
 (1, 2, '2-milkita-527173.png', '2023-05-22 19:00:12', 1),
 (2, 2, '2-milkita-057524.png', '2023-05-22 19:00:12', 1),
 (3, 1, '1-toblerone-965363.png', '2023-05-24 21:00:42', 1),
-(4, 1, '1-toblerone-484817.png', '2023-05-24 21:00:42', 1);
+(4, 1, '1-toblerone-484817.png', '2023-05-24 21:00:42', 1),
+(5, 1, '1-toblerone-484817.png', '2023-05-24 21:00:42', 0),
+(6, 2, '2-milkita-014172.png', '2023-06-01 18:19:24', 0),
+(7, 2, '2-milkita-742781.png', '2023-06-01 18:19:24', 0),
+(8, 4, '4-Max-275634.png', '2023-06-01 18:19:55', 0),
+(9, 4, '4-Max-419920.png', '2023-06-01 18:19:55', 0),
+(10, 4, '4-Max-697431.png', '2023-06-01 18:19:55', 0),
+(11, 3, '3-toblerone-648659.png', '2023-06-01 18:20:08', 0),
+(12, 3, '3-toblerone-692650.png', '2023-06-01 18:20:08', 0),
+(13, 3, '3-toblerone-799979.png', '2023-06-01 18:20:08', 0),
+(14, 3, '3-toblerone-082855.png', '2023-06-01 18:20:08', 0),
+(15, 3, '3-toblerone-367020.png', '2023-06-01 18:20:08', 0),
+(16, 5, '5-asdasd-109771.png', '2023-06-01 18:20:14', 0),
+(17, 5, '5-asdasd-190683.png', '2023-06-01 18:20:14', 0);
 
 -- --------------------------------------------------------
 
@@ -201,7 +238,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`u_id`, `u_email`, `u_password`, `u_name`, `u_type`, `u_status`) VALUES
 (1, 'admin@admin', 'admin@admin', 'Administrator', 2, 0),
 (25, 'branch1@branch1', 'branch1@branch1', 'branch1', 0, 0),
-(26, 'checker@checker', 'checker@checker', 'Checker', 1, 0);
+(26, 'checker@checker', 'checker@checker', 'Checker', 1, 0),
+(27, 'mr.ephraiel@gmail.com', 'asdasd', 'tester', 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -242,6 +280,12 @@ ALTER TABLE `order_records`
 --
 ALTER TABLE `products`
   ADD PRIMARY KEY (`prod_id`);
+
+--
+-- Indexes for table `request`
+--
+ALTER TABLE `request`
+  ADD PRIMARY KEY (`request_id`);
 
 --
 -- Indexes for table `stocks`
@@ -297,16 +341,22 @@ ALTER TABLE `products`
   MODIFY `prod_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `request`
+--
+ALTER TABLE `request`
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `stocks`
 --
 ALTER TABLE `stocks`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `u_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

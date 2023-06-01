@@ -83,7 +83,7 @@ $db = new db_class();
     }
     if(isset($_POST['addStocks'])){
 
-        for ($i=1; $i <=$_POST['quantity'] ; $i++) { 
+  for ($i=1; $i <=$_POST['quantity'] ; $i++) { 
     // Create a new instance of the BarcodeGeneratorPNG class
     $generator = new BarcodeGeneratorPNG();
     // Set the barcode content

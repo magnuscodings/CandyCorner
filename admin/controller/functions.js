@@ -10,7 +10,7 @@ function AddingDetails($form){
                   success: function(response) {
                       // Handle successful response from server
                       // var res = JSON.parse(response);
-                                  // alert(response)
+                                  // console.log(response)
                                   if(response==2){
                                     alert('Success')
                                   location.reload()

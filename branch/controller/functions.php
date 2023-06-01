@@ -69,9 +69,16 @@ $db = new db_class();
 
     }
 
-
 }//END CART
-
+{//Pullout
+if(isset($_POST['addrequest'])){
+    if($db->insertRequest($_SESSION['user_id'],$_POST['prod_id'],$_POST['quantity'],$_POST['reason'])){
+        echo 2;
+    }else{
+        echo 1;
+    }
+}
+}//end Pull out
 function generateCode(){
     return str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
 

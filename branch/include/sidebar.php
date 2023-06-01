@@ -24,8 +24,8 @@
                 <span class="material-icons-outlined">table_view</span> Orders
             </li>
           </a>
-          <a href="index.php" class="text-light text-decoration-none">
-            <li class="sidebar-list-item" id="nav-home" >
+          <a href="request.php" class="text-light text-decoration-none">
+            <li class="sidebar-list-item" id="nav-request" >
                 <span class="material-icons-outlined ">dashboard</span> Request
             </li>
           </a>
