@@ -53,6 +53,17 @@
 				return true;
 			}
 		}
+		public function insertRequest($user_id,$id,$quantity,$reason){
+			$id=htmlentities($id);
+			$user_id=htmlentities($user_id);
+			$quantity=htmlentities($quantity);
+			$reason=htmlentities($reason);
+
+			$query=$this->conn->prepare("INSERT INTO `request` (`request_id`, `request_user_id`, `request_prod_id`, `request_qty`, `request_reason`, `request_date`, `request_status`) VALUES (NULL, '$user_id', '$id', '$quantity', '$reason', current_timestamp(), '0')") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
 		public function insertOrder($id,$order_id,$quantity,$user_id){
 			$id=htmlentities($id);
 			$order_id=htmlentities($order_id);
@@ -204,6 +215,16 @@
 				return $result;
 			}
 		}
+		public function selectProductQty($id){
+			$query=$this->conn->prepare("SELECT *, COUNT(stock_id) as count FROM stocks
+			WHERE stock_status=0 and stock_prod_id='$id'
+			GROUP BY stock_prod_id
+			") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
 		public function selectStocks(){
 			$query=$this->conn->prepare("SELECT * FROM `stocks` as a 
 			LEFT JOIN products as b 
@@ -229,7 +250,22 @@
 				return $result;
 			}
 		}
-
+		public function selectOrderUserGrouped($user_id){
+			$query=$this->conn->prepare("SELECT *, 
+			GROUP_CONCAT(prod_name SEPARATOR ',') as grp_prodname,
+			GROUP_CONCAT(order_quantity SEPARATOR ',') as grp_quantity,
+			GROUP_CONCAT(prod_price SEPARATOR ',') as grp_price,
+			DATE_FORMAT(order_date, '%M %d %Y /  %h:%i:%s %p ') as order_date
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_user_id='$user_id' and order_status=5
+			GROUP BY prod_id") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
 		public function selectOrderUser($user_id){
 			$query=$this->conn->prepare("SELECT *, 
 			GROUP_CONCAT(prod_name SEPARATOR ',') as grp_prodname,
@@ -241,6 +277,17 @@
 			ON a.order_product_id = b.prod_id
 			WHERE a.order_user_id='$user_id'
 			GROUP BY order_united_id") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function selectRequest($user_id){
+			$user_id=htmlentities($user_id);
+			$query=$this->conn->prepare("SELECT * FROM request as a 
+			LEFT JOIN products as b 
+			ON a.request_id = b.prod_id
+			WHERE request_user_id ='$user_id'") or die($this->conn->error);
 			if($query->execute()){
 				$result = $query->get_result();
 				return $result;
