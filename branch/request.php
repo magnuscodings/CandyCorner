@@ -22,7 +22,9 @@ include("include/sidebar.php");
                             <th >Item</th>
                             <th >Quantity</th>
                             <th >Reason</th>
+                            <th >Date</th>
                             <th class="text-center">Status</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,17 +36,20 @@ include("include/sidebar.php");
                                 $id = $row['request_id'];
 
                                 if($status==0){
-                                    $action="<button class='btn btn-secondary'>Pending</button>";
+                                    $status="<button class='btn btn-secondary'>Pending</button>";
+                                    $action="N/A";
                                 }else if($status==2){
-                                    $action="<button class='btn btn-secondary'>Preparing items</button>";
+                                    $status="<button class='btn btn-secondary'>To pick up</button>";
+                                    $action="<button class='btn btn-success togler' data-bs-toggle='modal' data-bs-target='#action' data-id='".$id."'>Action</button>";
                                 }else if($status==1){
-                                    $action="<button class='btn btn-danger'>Rejected</button>";
+                                    $status="<button class='btn btn-danger'>Rejected</button>";
+                                    $action="N/A";
                                 }else if($status==3){
-                                    $action="<button class='btn btn-primary'>Ready for delivery</button>";
+                                    $status="<button class='btn btn-seconday'>Transferred to picker</button>";
+                                    $action="N/A";
                                 }else if($status==4){
-                                    $action="<a href='controller/action.php?id=".$id."' class='btn btn-primary'>On the way / Order received</a>";
-                                }else if($status==5){
-                                    $action="<a class='btn btn-success'>Received</a>";
+                                    $status="<button class='btn btn-success'>Successfully</button>";
+                                    $action="N/A";
                                 }
                                 echo 
                                 '<tr>
@@ -52,7 +57,9 @@ include("include/sidebar.php");
                                     <td>'.ucfirst($row['prod_name']).'</td>
                                     <td>'.ucfirst($row['request_qty']).'</td>
                                     <td>'.ucwords($row['request_reason']).'</td>
+                                    <td>'.ucwords($row['request_date']).'</td>
                                     
+                                    <td class="text-center">'.$status.'</td>
                                     <td class="text-center">'.$action.'</td>
                                 </tr>';
                                 $i++;
@@ -117,6 +124,35 @@ include("include/sidebar.php");
   </div>
 </div>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="action" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalLabel">Request Action</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="controller/request.php" method="POST" >
+            <div class="row" id="rowForm">
+                <div class="col-sm-12 mb-2">
+                    <div class="form-group form-group-default">
+                        <label>Does item already transferred to the picker?</label>
+                        <input type="text" id="id" hidden name="id" >
+                    </div>
+                </div>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" name="accept"  class="btn btn-success">Confirm</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
 <script>
     $('#nav-request').addClass('active')
 </script>
@@ -124,4 +160,9 @@ include("include/sidebar.php");
 <script src="controller/functions.js"></script>
 <script>
 AddingDetails('#reqForm')
+</script>
+<script>
+    $('.togler').click(function(){
+    $('#id').val($(this).attr('data-id'))
+}) 
 </script>

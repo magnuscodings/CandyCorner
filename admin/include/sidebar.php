@@ -27,6 +27,11 @@
             <li class="sidebar-list-item" id="nav-inventory">
                 <span class="material-icons-outlined">fact_check</span> Inventory
             </li>
+            <a href="request.php" class="text-light text-decoration-none">
+            <li class="sidebar-list-item" id="nav-request" >
+                <span class="material-icons-outlined ">front_hand</span> Request
+            </li>
+          </a>
             </a>
                 <a href="orders.php" class="text-light text-decoration-none">
                 <li class="sidebar-list-item"  id="nav-order">

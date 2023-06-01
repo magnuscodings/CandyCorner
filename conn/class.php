@@ -43,6 +43,26 @@
 				return true;
 			}
 		}
+		public function insertRequestDelivery($user_id,$req_id,$date){
+			$user_id=htmlentities($user_id);
+			$req_id=htmlentities($req_id);
+			$date=htmlentities($date);
+
+			$query=$this->conn->prepare("INSERT INTO `request_delivery` (`request_delivery_id`, `request_delivery_user_id`, `request_delivery_request_id`, `request_delivery_date`, `request_delivery_status`) VALUES (NULL, '$user_id', '$req_id', '$date', '0')") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
+		public function updateRequestStatus($user_id,$req_id,$status){
+			$user_id=htmlentities($user_id);
+			$req_id=htmlentities($req_id);
+			$status=htmlentities($status);
+
+			$query=$this->conn->prepare("UPDATE `request` SET `request_status` = '$status' WHERE `request`.`request_id` = '$req_id' && request_user_id = '$user_id';") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
 		public function insertCart($id,$user_id,$quantity){
 			$id=htmlentities($id);
 			$user_id=htmlentities($user_id);
@@ -162,6 +182,17 @@
 				return true;
 			}
 		}
+		public function insertPulloutRecords($user_id,$prod_id,$qty){
+			$user_id=htmlentities($user_id);
+			$prod_id=htmlentities($prod_id);
+			$qty=htmlentities($qty);
+
+			$query=$this->conn->prepare("INSERT INTO `pullout_records` (`pullout_records_id`, `pullout_records_user_id`, `pullout_records_prod_id`, `pullout_records_qty`, `pullout_records_date`) VALUES (NULL, '$user_id', '$prod_id', '$qty', current_timestamp())") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
+
 		public function updateProducts($id,$name,$category,$description,$price){
 			$id=htmlentities($id);
 			$name=htmlentities($name);
@@ -282,12 +313,24 @@
 				return $result;
 			}
 		}
-		public function selectRequest($user_id){
-			$user_id=htmlentities($user_id);
-			$query=$this->conn->prepare("SELECT * FROM request as a 
+		public function selectAllRequest(){
+			$query=$this->conn->prepare("SELECT *,DATE_FORMAT(request_date, '%M %d %Y /  %h:%i:%s %p ') as request_date FROM request as a 
 			LEFT JOIN products as b 
 			ON a.request_id = b.prod_id
-			WHERE request_user_id ='$user_id'") or die($this->conn->error);
+			WHERE request_status!=5
+			ORDER BY request_date desc ") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function selectRequest($user_id){
+			$user_id=htmlentities($user_id);
+			$query=$this->conn->prepare("SELECT *,DATE_FORMAT(request_date, '%M %d %Y /  %h:%i:%s %p ') as request_date FROM request as a 
+			LEFT JOIN products as b 
+			ON a.request_id = b.prod_id
+			WHERE request_user_id ='$user_id'
+			ORDER BY request_date desc ") or die($this->conn->error);
 			if($query->execute()){
 				$result = $query->get_result();
 				return $result;

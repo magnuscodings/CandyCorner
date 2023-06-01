@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 01, 2023 at 04:14 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Jun 01, 2023 at 06:43 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,7 +33,7 @@ CREATE TABLE `cart` (
   `cart_product_id` int(11) NOT NULL,
   `cart_quantity` int(11) NOT NULL,
   `cart_status` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -45,7 +45,7 @@ CREATE TABLE `category` (
   `category_id` int(11) NOT NULL,
   `category_name` text DEFAULT NULL,
   `category_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `category`
@@ -68,7 +68,7 @@ CREATE TABLE `inventory_records` (
   `inventory_record_order_id` int(11) NOT NULL,
   `inventory_record_status` int(11) DEFAULT 0,
   `inventory_record_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `inventory_records`
@@ -94,7 +94,7 @@ CREATE TABLE `orders` (
   `order_date` datetime NOT NULL DEFAULT current_timestamp(),
   `order_status` int(11) NOT NULL DEFAULT 0,
   `order_user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `orders`
@@ -118,7 +118,7 @@ CREATE TABLE `order_records` (
   `order_record_order_id` int(255) NOT NULL,
   `order_record_status` int(11) NOT NULL,
   `order_record_date` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `order_records`
@@ -142,7 +142,7 @@ CREATE TABLE `products` (
   `prod_description` text DEFAULT NULL,
   `prod_price` text DEFAULT NULL,
   `prod_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `products`
@@ -158,6 +158,27 @@ INSERT INTO `products` (`prod_id`, `prod_name`, `prod_category`, `prod_descripti
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pullout_records`
+--
+
+CREATE TABLE `pullout_records` (
+  `pullout_records_id` int(11) NOT NULL,
+  `pullout_records_user_id` int(11) NOT NULL,
+  `pullout_records_prod_id` int(11) NOT NULL,
+  `pullout_records_qty` int(11) NOT NULL,
+  `pullout_records_date` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `pullout_records`
+--
+
+INSERT INTO `pullout_records` (`pullout_records_id`, `pullout_records_user_id`, `pullout_records_prod_id`, `pullout_records_qty`, `pullout_records_date`) VALUES
+(1, 25, 1, 2, '2023-06-02');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `request`
 --
 
@@ -169,15 +190,29 @@ CREATE TABLE `request` (
   `request_reason` text NOT NULL,
   `request_date` datetime NOT NULL DEFAULT current_timestamp(),
   `request_status` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `request`
 --
 
 INSERT INTO `request` (`request_id`, `request_user_id`, `request_prod_id`, `request_qty`, `request_reason`, `request_date`, `request_status`) VALUES
-(1, 25, 5, '2', 'sira na lagayan', '2023-06-01 21:35:39', 0),
-(2, 25, 2, '5', 'sira na kasi lagayan', '2023-06-01 21:36:47', 0);
+(1, 25, 5, '2', 'sira na lagayan', '2023-06-01 21:35:39', 4),
+(2, 25, 2, '5', 'sira na kasi lagayan', '2023-06-01 21:36:47', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `request_delivery`
+--
+
+CREATE TABLE `request_delivery` (
+  `request_delivery_id` int(11) NOT NULL,
+  `request_delivery_user_id` int(11) NOT NULL,
+  `request_delivery_request_id` int(11) NOT NULL,
+  `request_delivery_date` date NOT NULL,
+  `request_delivery_status` tinyint(4) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -191,7 +226,7 @@ CREATE TABLE `stocks` (
   `stock_barcode` text NOT NULL,
   `stock_datetime` datetime NOT NULL DEFAULT current_timestamp(),
   `stock_status` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `stocks`
@@ -229,7 +264,7 @@ CREATE TABLE `users` (
   `u_name` text NOT NULL,
   `u_type` int(255) NOT NULL DEFAULT 0,
   `u_status` int(255) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `users`
@@ -282,10 +317,22 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`prod_id`);
 
 --
+-- Indexes for table `pullout_records`
+--
+ALTER TABLE `pullout_records`
+  ADD PRIMARY KEY (`pullout_records_id`);
+
+--
 -- Indexes for table `request`
 --
 ALTER TABLE `request`
   ADD PRIMARY KEY (`request_id`);
+
+--
+-- Indexes for table `request_delivery`
+--
+ALTER TABLE `request_delivery`
+  ADD PRIMARY KEY (`request_delivery_id`);
 
 --
 -- Indexes for table `stocks`
@@ -341,10 +388,22 @@ ALTER TABLE `products`
   MODIFY `prod_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `pullout_records`
+--
+ALTER TABLE `pullout_records`
+  MODIFY `pullout_records_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `request`
 --
 ALTER TABLE `request`
   MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `request_delivery`
+--
+ALTER TABLE `request_delivery`
+  MODIFY `request_delivery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `stocks`

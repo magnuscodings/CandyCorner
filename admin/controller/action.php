@@ -6,8 +6,6 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 $db = new db_class();
 session_start();
 if($_SESSION['user_type']==2){
-
-print_r($_SESSION);
     {// Category
         if(isset($_GET['status'])){
             $status = htmlentities($_GET['status']);

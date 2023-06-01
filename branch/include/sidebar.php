@@ -26,7 +26,7 @@
           </a>
           <a href="request.php" class="text-light text-decoration-none">
             <li class="sidebar-list-item" id="nav-request" >
-                <span class="material-icons-outlined ">dashboard</span> Request
+                <span class="material-icons-outlined ">front_hand</span> Request
             </li>
           </a>
            
