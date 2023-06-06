@@ -3,7 +3,7 @@ function register(){
         $('#registerForm').submit(function(event) {
           event.preventDefault(); // Prevent the form from submitting normally
           var formData = $(this).serialize(); // Serialize the form data
-          if($(pass1).val()==$(pass2).val() && $(checkbox).prop('checked')){
+          if($(pass1).val()==$(pass2).val() ){
               $.ajax({
                   url: 'controller/functions.php',
                   method: 'POST',

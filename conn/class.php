@@ -556,7 +556,7 @@
 			FROM `orders` as a 
 			LEFT JOIN products as b 
 			ON a.order_product_id = b.prod_id
-			WHERE a.order_status = 5 
+			WHERE a.order_status >1 
 			GROUP BY b.prod_id
 			") or die($this->conn->error);
 			if($query->execute()){
@@ -571,7 +571,7 @@
 			FROM `orders` as a 
 			LEFT JOIN products as b 
 			ON a.order_product_id = b.prod_id
-			WHERE a.order_status = 5 AND MONTH(order_date)='$month'
+			WHERE a.order_status >1 AND MONTH(order_date)='$month'
 			GROUP BY b.prod_id
 			") or die($this->conn->error);
 			if($query->execute()){
@@ -586,7 +586,7 @@
 			FROM `orders` as a 
 			LEFT JOIN products as b 
 			ON a.order_product_id = b.prod_id
-			WHERE a.order_status = 5 AND DATE(order_date)='$date'
+			WHERE a.order_status >1 AND DATE(order_date)='$date'
 			GROUP BY b.prod_id
 			") or die($this->conn->error);
 			if($query->execute()){

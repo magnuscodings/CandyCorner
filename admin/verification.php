@@ -42,7 +42,6 @@ include("include/sidebar.php");
                                     <td>'.lcfirst($row['u_email']).'</td>
                                     <td>'.ucwords($status).'</td>
                                     <td>'.$action.'</td>
-                                    
                                 </tr>';
                                 $i++;
                             }
