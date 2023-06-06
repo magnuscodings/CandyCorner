@@ -10,7 +10,7 @@
 		public function login($email, $password){
 			$email=htmlentities(trim($email));
 			$password=htmlentities(trim($password));
-			$query=$this->conn->prepare("SELECT * FROM `users` WHERE `u_email`='$email' && `u_password`='$password' && u_status=0 ") or die($this->conn->error);
+			$query=$this->conn->prepare("SELECT * FROM `users` WHERE `u_email`='$email' && `u_password`='$password' ") or die($this->conn->error);
 			if($query->execute()){
 				$result=$query->get_result();
 				$valid=$result->num_rows;
@@ -20,17 +20,19 @@
 					'u_id'=>isset($fetch['u_id']) ? $fetch['u_id'] : 0,
 					'count'=>isset($valid) ? $valid: 0,
 					'u_type'=>isset($fetch['u_type']) ? $fetch['u_type'] : 0,
-					'u_email'=>isset($fetch['u_email']) ? $fetch['u_email'] : 0
+					'u_email'=>isset($fetch['u_email']) ? $fetch['u_email'] : 0,
+					'u_status'=>isset($fetch['u_status']) ? $fetch['u_status'] : 0
 				);	
 			}
 		}
-		public function insertUser($email,$password,$name,$type){
+		public function insertUser($email,$password,$name,$type,$status){
 			$email=htmlentities($email);
 			$password=htmlentities($password);
 			$type=htmlentities($type);
 			$name=htmlentities($name);
+			$status=htmlentities($status);
 
-			$query=$this->conn->prepare("INSERT INTO `users` (`u_id`, `u_email`, `u_password`, u_name, `u_type`, `u_status`) VALUES (NULL, '$email', '$password','$name','$type','0')") or die($this->conn->error);			
+			$query=$this->conn->prepare("INSERT INTO `users` (`u_id`, `u_email`, `u_password`, u_name, `u_type`, `u_status`) VALUES (NULL, '$email', '$password','$name','$type','$status')") or die($this->conn->error);			
 			if($query->execute()){
 				return true;
 			}
@@ -215,6 +217,17 @@
 				return true;
 			}
 		}
+		public function insertOrderCancelRecords($user_id,$reason,$type,$order_id){
+			$user_id=htmlentities($user_id);
+			$reason=htmlentities($reason);
+			$type=htmlentities($type);
+			$order_id=htmlentities($order_id);
+
+			$query=$this->conn->prepare("INSERT INTO `order_cancel_records` (`order_cancel_record_id`, `order_cancel_record_user_id`, `order_cancel_record_reason`, `order_cancel_record_datetime`, `order_cancel_record_type`, `order_cancel_record_order_id`) VALUES (NULL, '$user_id', '$reason', current_timestamp(), '$type', '$order_id')") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
 		
 
 		public function deactivateProducts($id){
@@ -225,9 +238,25 @@
 				return true;
 			}
 		}
-	
+		public function updateStocksStatus($id,$status){
+			$id=htmlentities($id);
+			$status=htmlentities($status);
 
-		
+			$query=$this->conn->prepare("UPDATE `stocks` SET `stock_status` = '$status' WHERE `stocks`.`stock_id` = '$id'") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
+		public function updateUserStatus($id,$status){
+			$id=htmlentities($id);
+			$status=htmlentities($status);
+
+			$query=$this->conn->prepare("UPDATE `users` SET `u_status` = '$status' WHERE `users`.`u_id` ='$id'") or die($this->conn->error);			
+			if($query->execute()){
+				return true;
+			}
+		}
+
 		public function selectCategory(){
 			$query=$this->conn->prepare("SELECT * 
 			FROM category where category_status='0' ") or die($this->conn->error);
@@ -246,6 +275,72 @@
 				return $result;
 			}
 		}
+		public function dashboardProducts(){
+			$query=$this->conn->prepare("SELECT COUNT(a.prod_id) as count FROM products as a 
+			LEFT JOIN category as b 
+			ON a.prod_category=b.category_id
+			where `prod_status`='0'") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function dashboardPurchase(){
+			$query=$this->conn->prepare("SELECT SUM(a.order_quantity) as count
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+		") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function dashboardSales(){
+			$query=$this->conn->prepare("SELECT SUM(a.order_quantity) as count
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status = 5 
+		") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function dashboardInventory(){
+			$query=$this->conn->prepare("SELECT COUNT(stock_id) as count 
+			FROM `stocks` WHERE stock_status = 0
+		") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function dashboardOrders(){
+			$query=$this->conn->prepare("SELECT SUM(order_quantity) as qty,
+			DATE_FORMAT(order_date, '%M') as month
+			FROM `orders` as a 
+			GROUP BY MONTH(order_date)
+		") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function dashboardOrderSales(){
+			$query=$this->conn->prepare("SELECT SUM(order_quantity) as sales,
+			DATE_FORMAT(order_date, '%M') as month
+			FROM `orders` as a 
+            WHERE a.order_status = 5 
+			GROUP BY MONTH(order_date)
+		") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+
 		public function selectProductQty($id){
 			$query=$this->conn->prepare("SELECT *, COUNT(stock_id) as count FROM stocks
 			WHERE stock_status=0 and stock_prod_id='$id'
@@ -261,7 +356,25 @@
 			LEFT JOIN products as b 
 			ON a.stock_prod_id = b.prod_id
 			LEFT JOIN category as c 
-			ON b.prod_category = c.category_id") or die($this->conn->error);
+			ON b.prod_category = c.category_id
+			ORDER BY stock_status ASC
+			") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function selectUsers($status){
+			$query=$this->conn->prepare("SELECT * FROM `users` WHERE u_type='0' AND u_status='$status'
+			") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function selectAllUsers(){
+			$query=$this->conn->prepare("SELECT * FROM `users` WHERE u_type='0'
+			") or die($this->conn->error);
 			if($query->execute()){
 				$result = $query->get_result();
 				return $result;
@@ -307,7 +420,8 @@
 			LEFT JOIN products as b 
 			ON a.order_product_id = b.prod_id
 			WHERE a.order_user_id='$user_id'
-			GROUP BY order_united_id") or die($this->conn->error);
+			GROUP BY order_united_id
+			ORDER BY order_id desc ") or die($this->conn->error);
 			if($query->execute()){
 				$result = $query->get_result();
 				return $result;
@@ -350,7 +464,8 @@
 			ON b.prod_category = c.category_id
 			LEFT JOIN users as d 
             ON a.order_user_id = d.u_id
-			GROUP BY order_united_id") or die($this->conn->error);
+			GROUP BY order_united_id
+			ORDER BY order_status ASC ") or die($this->conn->error);
 			if($query->execute()){
 				$result = $query->get_result();
 				return $result;
@@ -385,6 +500,148 @@
 			LEFT JOIN products as b 
 			ON a.stock_prod_id = b.prod_id
 			WHERE stock_status=0") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportTopStocksMonth($month){
+			$month = htmlentities($month);
+
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status = 5 AND MONTH(order_date)='$month'
+			GROUP BY b.prod_id
+			ORDER BY (SUM(a.order_quantity)) DESC
+			LIMIT 5") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportTopStocksDate($date){
+			$date = htmlentities($date);
+
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status = 5 AND Date(order_date)='$date'
+			GROUP BY b.prod_id
+			ORDER BY (SUM(a.order_quantity)) DESC
+			LIMIT 5") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportTopStocks(){
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status = 5
+			GROUP BY b.prod_id
+			ORDER BY (SUM(a.order_quantity)) DESC
+			LIMIT 5") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportStocks(){
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status = 5 
+			GROUP BY b.prod_id
+			") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportStocksMonth($month){
+			$month = htmlentities($month);
+
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status = 5 AND MONTH(order_date)='$month'
+			GROUP BY b.prod_id
+			") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportStocksDate($date){
+			$date = htmlentities($date);
+
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status = 5 AND DATE(order_date)='$date'
+			GROUP BY b.prod_id
+			") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportCriticalStocks($value){
+			$value = htmlentities($value);
+			$query=$this->conn->prepare("SELECT a.*, COUNT(b.stock_id) as stocks
+			FROM products as a
+			LEFT JOIN stocks as b ON a.prod_id = b.stock_prod_id
+			WHERE b.stock_status =0
+			GROUP BY a.prod_id
+			HAVING COUNT(b.stock_id) < '$value';") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportCancelledOrders(){
+			$query=$this->conn->prepare("SELECT * ,
+			GROUP_CONCAT(prod_name SEPARATOR ',') as grp_order_prod,
+			GROUP_CONCAT(order_quantity SEPARATOR ',') as grp_order_qty,
+			SUM(order_quantity) as totalQty,
+			DATE_FORMAT(order_date, '%M %d %Y /  %h:%i:%s %p ') as order_date
+			FROM `order_cancel_records` as a 
+			LEFT JOIN orders as b 
+			ON a.order_cancel_record_order_id = b.order_united_id
+			LEFT JOIN products as c 
+			ON b.order_product_id = c.prod_id
+			GROUP BY b.order_united_id
+			ORDER BY a.order_cancel_record_id ASC") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportStockInHistory(){
+			$query=$this->conn->prepare("SELECT *, 
+			GROUP_CONCAT(prod_name SEPARATOR ',') as grp_order_prod,
+			GROUP_CONCAT(order_quantity SEPARATOR ',') as grp_order_qty,
+			GROUP_CONCAT(prod_price SEPARATOR ',') as grp_price,
+			GROUP_CONCAT('P',prod_price SEPARATOR ',') as grp_prices,
+			DATE_FORMAT(order_date, '%M %d %Y /  %h:%i:%s %p ') as order_date
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			LEFT JOIN category as c
+			ON b.prod_category = c.category_id
+			LEFT JOIN users as d 
+            ON a.order_user_id = d.u_id
+            WHERE order_status =5
+			GROUP BY order_united_id
+			ORDER BY order_status ASC ") or die($this->conn->error);
 			if($query->execute()){
 				$result = $query->get_result();
 				return $result;

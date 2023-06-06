@@ -5,7 +5,7 @@ require '../../vendor/autoload.php';
 use Picqer\Barcode\BarcodeGeneratorPNG;
 $db = new db_class();
 session_start();
-print_r($_POST);
+// print_r($_POST);
 if(isset($_POST['accept'])){
     if($db->insertRequestDelivery($_POST['user_id'],$_POST['id'],$_POST['date']) && $db->updateRequestStatus($_POST['user_id'],$_POST['id'],2)){
         header('Location:../request.php');

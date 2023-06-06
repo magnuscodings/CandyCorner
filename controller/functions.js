@@ -45,6 +45,7 @@ function login(){
                       // Handle successful response from server
                       // var res = JSON.parse(response);
                                 //   alert(response)
+                                console.log(response)
                                   if(response==2){
                                     alert('Success Login')
                                     window.location="admin/"
@@ -56,6 +57,8 @@ function login(){
                                     window.location="branch/"
                                   }else if(response==3){
                                     alert('Failed Login')
+                                  }else if(response==4){
+                                    alert('Wait for confirmation of Admin')
                                   }
                   },
                   error: function(xhr, status, error) {

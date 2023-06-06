@@ -14,7 +14,6 @@ function AddingDetails($form){
                                   if(response==2){
                                     alert('Success')
                                   location.reload()
-
                                   }else if(response==1){
                                     alert('Failed')
                                   }else if(response==3){

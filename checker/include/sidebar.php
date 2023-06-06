@@ -8,11 +8,6 @@
           </div>
 
           <ul class="sidebar-list">
-          <a href="index.php" class="text-light text-decoration-none">
-            <li class="sidebar-list-item" id="nav-home" >
-                <span class="material-icons-outlined ">dashboard</span> Dashboard
-            </li>
-          </a>
           <a href="orders.php" class="text-light text-decoration-none">
                 <li class="sidebar-list-item"  id="nav-order">
                 <span class="material-icons-outlined">add_shopping_cart</span> Purchase Order

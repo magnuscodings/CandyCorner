@@ -143,11 +143,7 @@ include("include/sidebar.php");
     $('#nav-request').addClass('active')
 </script>
 
-<?php 
-include("include/js.php");
-?>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<?php include("include/js.php");?>
 <script src="controller/functions.js"></script>
 <script>
     $('.togler').click(function(){

@@ -6,7 +6,7 @@ $db = new db_class();
 // Registration
 if(isset($_POST['register'])){
     try {
-        if($db->insertUser($_POST['email'],$_POST['password'],$_POST['name'],'0')){
+        if($db->insertUser($_POST['email'],$_POST['password'],$_POST['name'],'0',0)){
             echo '2';
         }else{
             echo '1';
@@ -25,7 +25,13 @@ if(isset($_POST['login'])){
                 $_SESSION['user_type']=$get_id['u_type'];
                  $_SESSION['user_email'] = $get_id['u_email'];
                 if($get_id['u_type']==0){
-                    echo '0';
+                    if($get_id['u_status']==0){
+                        echo '4';
+                    }else if($get_id['u_status']==1){
+                        echo '3';
+                    }else if($get_id['u_status']==2){
+                        echo '0';
+                    }
                 }else if($get_id['u_type']==1){
                     echo '1';
                 }else if($get_id['u_type']==2){

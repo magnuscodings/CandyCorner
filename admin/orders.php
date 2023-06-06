@@ -36,7 +36,11 @@ include("include/sidebar.php");
 
                             if($status==0){
                                 $accept = status($id,$user_id,2,'Accept');
-                                $decline = status($id,$user_id,1,'Decline');
+                                $decline = '<button class="btn togler btn-danger"
+                                data-bs-toggle="modal" data-bs-target="#modal"
+                                data-id="'.$id.'"
+                                data-user_id="'.$user_id.'"
+                                >Decline</button>';
                                 $action = $accept.$decline;
                             }else if($status==4){
                                 $action="<button class='btn btn-secondary'>On Delivery</button>";
@@ -71,53 +75,45 @@ include("include/sidebar.php");
         </div>
     </main>
 
-
-<!-- Modal -->
-<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+ <!-- Modal -->
+ <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalLabel">Add Category</h1>
+        <h1 class="modal-title fs-5" id="modalLabel">Action Status</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <p class="small" id="textForm">Fill out Required fields.</p>
-        <form action="#" id="categoryForm" >
-            <div class="row" id="rowForm">
-                <div class="col-sm-12 mb-2">
-                    <div class="form-group form-group-default">
-                        <label>Category Name:</label>
-                        <input type="text" id="id" name="id" hidden>
-                        <input type="text" placeholder="Category Name" id="name" name="name" required class="form-control">
-                    </div>
-                </div>
-            </div>
-            <input type="text" hidden id="submit">
+        <p class="medium" id="textForm">Do you wish to cancel your order?</p>
+        <form action="controller/order.php" method="POST">
+        <input type="text" id="id" hidden name="id" >
+        <input type="text" id="user_id" hidden name="user_id" >
+        <textarea name="reason" cols="30" class="form-control" placeholder="Reason for canceling order:" required rows="5"></textarea>
       </div>
       <div class="modal-footer">
+        <button type="submit" name="cancelorder" class="btn btn-danger">Cancel Order</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit"  class="btn btn-primary">Confirm</button>
       </div>
-      </form>
+       </form>
 
     </div>
   </div>
 </div>
+
+
         
 <script>
     $('#nav-order').addClass('active')
 </script>
 
-<?php 
-include("include/js.php");
-?>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<?php include("include/js.php");?>
 <script src="controller/functions.js"></script>
 <script>
-    $('.togler').click(function(){
-    $('#id').val($(this).attr('data-id'))
-
+  $('.togler').click(function(){
+    var id = $(this).attr('data-id')
+    var user_id = $(this).attr('data-user_id')
+    $('#id').val(id)
+    $('#user_id').val(user_id)
 }) 
 </script>
 <?php 

@@ -4,6 +4,33 @@ require '../../vendor/autoload.php';
 
 use Picqer\Barcode\BarcodeGeneratorPNG;
 $db = new db_class();
+{
+    if(isset($_POST['addBranch'])){
+
+        try {
+            if($db->insertUser($_POST['email'],$_POST['password'],$_POST['name'],0,2)){
+                echo '2';
+            }else{
+                echo '1';
+            }
+        } catch (\Throwable $th) {
+           echo '3';
+        }
+    }
+    if(isset($_POST['deleteBranch'])){
+
+        try {
+            if($db->updateUserStatus($_POST['id'],1)){
+                echo '2';
+            }else{
+                echo '1';
+            }
+        } catch (\Throwable $th) {
+           echo '3';
+        }
+    }
+}
+
 
 {// Category
     if(isset($_POST['addCategory'])){
