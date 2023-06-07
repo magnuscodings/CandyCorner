@@ -86,11 +86,11 @@
                 <span class="material-icons-outlined">verified</span> Verification
             </li>
             </a>
-                <a href="products.php" class="text-light text-decoration-none">
+                <!-- <a href="products.php" class="text-light text-decoration-none">
                 <li class="sidebar-list-item"  id="nav-settings">
                 <span class="material-icons-outlined">settings</span> Settings
                 
-            </li>
+            </li> -->
            
             </a>
             <a href="include/logout.php" class="text-light text-decoration-none">
