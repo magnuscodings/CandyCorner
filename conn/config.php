@@ -3,7 +3,10 @@
 	define("db_user", "root");
 	define("db_pass", "");
 	define("db_name", "candycorner");
-	
+	// define("db_host", "localhost");
+	// define("db_user", "id20878000_username");
+	// define("db_pass", "Password123!");
+	// define("db_name", "id20878000_name");
 	class db_connect{
 		public $host = db_host;
 		public $user = db_user;

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Branch Dashboard</title>
 
     <!--Montserrat Font-->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
@@ -31,14 +31,14 @@
             <div class="menu-icon" onclick="openSidebar()">
                 <span class="material-icons-outlined">menu</span>
             </div>
-            <div class="header-left">
+            <!-- <div class="header-left">
                 <span class="material-icons-outlined">search</span>
             </div>
             <div class="header-right">
                 <span class="material-icons-outlined">notifications</span>
                 <span class="material-icons-outlined">mail</span>
                 <span class="material-icons-outlined">account_circle</span>
-            </div>
+            </div> -->
             
                 </span>
         </header>
