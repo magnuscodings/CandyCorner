@@ -19,7 +19,7 @@ include("include/sidebar.php");
                     <thead>
                         <tr>
                             <th >#</th>
-                            <th >Name</th>
+                            <th >Pcode</th>
                             <th class="w-25">Description</th>
                             <th >Category</th>
                             <th >Price</th>

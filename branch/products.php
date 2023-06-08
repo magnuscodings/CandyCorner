@@ -14,7 +14,7 @@ include("include/sidebar.php");
                     <thead>
                         <tr>
                             <th >#</th>
-                            <th >Name</th>
+                            <th >Pcode</th>
                             <th class="w-25">Description</th>
                             <th >Category</th>
                             <th >Price</th>
@@ -69,7 +69,7 @@ include("include/sidebar.php");
                 <div class="col-sm-12 mb-2">
                     <div class="form-group form-group-default">
                         <label>Order Quantity</label>
-                        <input type="number" placeholder="Quantity" min="1" id="quantity" name="quantity" class="form-control" Required>
+                        <input type="number" max="30" placeholder="Quantity" min="1" id="quantity" name="quantity" class="form-control" Required>
                         <input type="text" hidden id="id" name="id">
                         <input type="text" hidden name="addCart">
                     </div>

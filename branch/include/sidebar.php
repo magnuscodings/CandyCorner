@@ -2,7 +2,7 @@
  <aside id="sidebar" style="z-index: 3;">
             <div class="sidebar-title">
                 <div class="sidebar-brand">
-                <span class="material-icons-outlined">inventory</span>Candy Corner's Inventory
+                <span class="material-icons-outlined">inventory</span>MERCHANT
             </div>
             <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
           </div>

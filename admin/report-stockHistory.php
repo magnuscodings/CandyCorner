@@ -16,7 +16,7 @@ include("include/sidebar.php");
                         <tr>
                             <th >#</th>
                             <th >Reference Number</th>
-                            <th >Product</th>
+                            <th >Pcode</th>
                             <th >Quantity</th>
                             <th >Date</th>
                             <th >Merchant/Branch</th>

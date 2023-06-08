@@ -18,7 +18,7 @@ include("include/sidebar.php");
                     <thead>
                         <tr>
                             <th >#</th>
-                            <th >Product</th>
+                            <th >Pcode</th>
                             <th >Quantity</th>
                         </tr>
                     </thead>

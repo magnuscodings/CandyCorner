@@ -16,9 +16,9 @@ include("include/sidebar.php");
                         <tr>
                             <th>#</th>
                             <th>Branch Name</th>
-                            <th>Products</th>
+                            <th>Pcode</th>
                             <th>Quantity</th>
-                            <th>Products</th>
+                            <th>Prices</th>
                             <th>Date Order</th>
                             <th>Status</th>
                             <th>Action</th>

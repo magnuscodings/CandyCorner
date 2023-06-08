@@ -17,7 +17,7 @@ include("include/sidebar.php");
                             <th>#</th>
                             <th>ID</th>
                             <th>Branch</th>
-                            <th>Products</th>
+                            <th>Pcode</th>
                             <th>Quantity</th>
                             <th>Products</th>
                             <th>Date / Time</th>

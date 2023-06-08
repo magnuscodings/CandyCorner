@@ -86,9 +86,9 @@ include("include/sidebar.php");
             <div class="row">
                 <div class="col-sm-12 mb-2">
                     <div class="form-group form-group-default">
-                        <label>Pullout Product:</label>
+                        <label>Pullout Pcode:</label>
                         <select name="prod_id" class="form-control" required>
-                            <option value="">Select Product</option>
+                            <option value="">Select Pcode</option>
                             <?php
                             $result= $db->selectOrderUserGrouped($_SESSION['user_id']);
                             while($row=$result->fetch_array()){

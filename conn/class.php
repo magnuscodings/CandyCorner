@@ -373,7 +373,7 @@
 			}
 		}
 		public function selectAllUsers(){
-			$query=$this->conn->prepare("SELECT * FROM `users` WHERE u_type='0'
+			$query=$this->conn->prepare("SELECT * FROM `users` WHERE u_type='0' AND u_status !=1
 			") or die($this->conn->error);
 			if($query->execute()){
 				$result = $query->get_result();

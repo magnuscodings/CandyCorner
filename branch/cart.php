@@ -16,7 +16,7 @@ include("include/sidebar.php");
                     <thead>
                         <tr>
                             <th >#</th>
-                            <th >Name</th>
+                            <th >Pcode</th>
                             <th class="w-25">Qty</th>
                             <th >Price</th>
                             <th >Subtotal</th>
