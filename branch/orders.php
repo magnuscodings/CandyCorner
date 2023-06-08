@@ -15,8 +15,6 @@ include("include/sidebar.php");
                         <tr>
                             <th >#</th>
                             <th >Item Order</th>
-                            <th >Quantity</th>
-                            <th >Price</th>
                             <th >Date</th>
                             <th class="text-center">Status</th>
                         </tr>
@@ -56,10 +54,7 @@ include("include/sidebar.php");
                                 '<tr>
                                     <td>'.$i.'</td>
                                     <td>'.$reference.'</td>
-                                    <td>'.ucfirst($row['grp_quantity']).'</td>
-                                    <td>'.$row['grp_price'].'</td>
                                     <td>'.$row['order_date'].'</td>
-                                    
                                     <td class="text-center">'.$action.'</td>
                                 </tr>';
                                 $i++;
