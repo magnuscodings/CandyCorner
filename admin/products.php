@@ -156,6 +156,19 @@ include("include/sidebar.php");
                         <input type="text" value="1" hidden name="addStocks">
                     </div>
                 </div>
+                <?php
+                // Get the current date
+                $currentDate = date('Y-m-d');
+
+                // Calculate the minimum date (current date + 1 day)
+                $minDate = date('Y-m-d', strtotime($currentDate . ' +1 day'));
+                ?>
+                <div class="col-sm-12 mb-2">
+                    <div class="form-group form-group-default">
+                        <label>Date Expiration</label>
+                        <input type="date"name="date" value="<?php echo $minDate; ?>" min="<?php echo $minDate; ?>" class="form-control" Required>
+                    </div>
+                </div>
             </div>
       </div>
       <div class="modal-footer">

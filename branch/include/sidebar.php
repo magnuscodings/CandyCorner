@@ -29,11 +29,11 @@
                 <span class="material-icons-outlined ">front_hand</span> Request
             </li>
           </a>
-          <!-- <a href="settings.php" class="text-light text-decoration-none">
-                <li class="sidebar-list-item"  id="nav-settings">
-                <span class="material-icons-outlined">settings</span> Settings
+          <a href="history.php" class="text-light text-decoration-none">
+                <li class="sidebar-list-item"  id="nav-history">
+                <span class="material-icons-outlined">history</span> History
                 
-            </li> -->
+            </li>
             <a href="include/logout.php" class="text-light text-decoration-none">
                 <li class="sidebar-list-item" >
                     <span class="material-icons-outlined">logout</span> Logout

@@ -122,7 +122,7 @@ $db = new db_class();
     $name=$barcodeContent.'.png';
     $file=$path.$name;
     file_put_contents($file, $barcodeData);
-    $db->insertStocks($_POST['stocks_id'],$name);
+    $db->insertStocks($_POST['stocks_id'],$name,$_POST['date']);
   }
   echo '2';
 

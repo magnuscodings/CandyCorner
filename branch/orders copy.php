@@ -29,12 +29,11 @@ include("include/sidebar.php");
                                 $status = $row['order_status'];
                                 $id = $row['order_united_id'];
                                 $reference ='<button class="btn toglerRef btn-secondary"
-                                data-bs-toggle="modal" data-bs-target="#reference"
+                                data-bs-toggle="modal" data-bs-target="#modal"
                                 data-id="'.$id.'" 
                                 data-grp_prodname="'.$row['grp_prodname'].'"
                                 data-grp_quantity="'.$row['grp_quantity'].'"
                                 data-grp_price="'.$row['grp_price'].'"
-                                data-grp_description="'.$row['grp_description'].'"
                                 >'.$row['order_united_id'].'</button>';
                                 if($status==0){
                                     $action ='<button class="btn togler btn-secondary"
@@ -106,29 +105,17 @@ include("include/sidebar.php");
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <div class="table-responsive">
-            <table class="table">
-            <thead>
-              <tr>
-                <th>Pcode</th>
-                <th>Description</th>
-                <th>Quantity</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-           <tbody id="orders">
 
-           </tbody>
-            
-            </table>
-          </div>
+        <form action="controller/order.php" method="POST">
 
-
-        <!-- <textarea name="reason" cols="30" class="form-control" placeholder="Reason for canceling order:" required rows="5"></textarea> -->
+        <input type="text" id="id" hidden name="id" >
+        <textarea name="reason" cols="30" class="form-control" placeholder="Reason for canceling order:" required rows="5"></textarea>
       </div>
       <div class="modal-footer">
+        <button type="submit" name="cancelorder" class="btn btn-danger">Cancel Order</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
+       </form>
     </div>
   </div>
 </div>
@@ -146,23 +133,8 @@ $('.togler').click(function(){
     $('#id').val(id)
 }) 
 $('.toglerRef').click(function(){
-  $('#orders').empty()
-    var prodname = $(this).attr('data-grp_prodname')
-    var quantity = $(this).attr('data-grp_quantity')
-    var price = $(this).attr('data-grp_price')
-    var description = $(this).attr('data-grp_description')
-    
-    var prodnames = prodname.split(',');
-    var quantitys = quantity.split(',');
-    var prices = price.split(',');
-    var descriptions = description.split(',');
-  
-    
-
-    prodnames.forEach((element,index) => {
-      console.log(element)
-      $('#orders').append('<tr><td>'+prodnames[index]+'</td> <td>'+descriptions[index]+'</td> <td>'+quantitys[index]+'</td> <td>'+prices[index]+'</td></tr>');
-    });
+    var id = $(this).attr('data-id')
+    $('#id').val(id)
 }) 
 
 

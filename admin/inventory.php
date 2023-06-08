@@ -20,6 +20,7 @@ include("include/sidebar.php");
                             <th class="text-center">Barcode</th>
                             <th >Category</th>
                             <th >Price</th>
+                            <th >Expiration</th>
                             <th >Status</th>
                             <th id="example2">Action</th>
                         </tr>
@@ -58,6 +59,7 @@ include("include/sidebar.php");
                                     <td class="text-center"><img src="../assets/img/barcode/'.$row['stock_barcode'].'"></td>
                                     <td>'.ucfirst($row['category_name']).'</td>
                                     <td>P'.number_format($row['prod_price'],2).'</td>
+                                    <td>'.$row['stock_expiration'].'</td>
                                     <td>'.$status.'</td>
                                     <td>'.$action.'</td>
                                     

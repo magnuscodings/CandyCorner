@@ -9,7 +9,7 @@ include("include/sidebar.php");
     <!-- Main -->
     <main class="main-container" style="z-index:2">
         <div class="fluid-container">
-            <h1 >Canceled Orders</h1>
+            <h1 >Cancelled Orders</h1>
             <div class="table-responsive card">
                 <table id="example" class="table table-striped" style="width:100%">
                     <thead>
@@ -20,7 +20,7 @@ include("include/sidebar.php");
                             <th >Quantity</th>
                             <th >Total</th>
                             <th >Date</th>
-                            <th >Canceled by</th>
+                            <th >Cancelled by</th>
                             <th >Reason</th>
                         </tr>
                     </thead>
@@ -31,7 +31,7 @@ include("include/sidebar.php");
                             while($row=$result->fetch_array()){
                                 $type = $row['order_cancel_record_type'];
                                 if($type == 0){
-                                    $cancel = "user";
+                                    $cancel = $row['u_name']; //"merchant";
                                 }else if($type==2){
                                     $cancel = "admin";
                                 }

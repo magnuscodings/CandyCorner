@@ -165,11 +165,12 @@
 				return true;
 			}
 		}
-		public function insertStocks($id,$barcode){
+		public function insertStocks($id,$barcode,$date){
 			$id=htmlentities($id);
 			$barcode=htmlentities($barcode);
+			$date=htmlentities($date);
 
-			$query=$this->conn->prepare("INSERT INTO `stocks` (`stock_id`, `stock_prod_id`, `stock_barcode`, `stock_datetime`, `stock_status`) VALUES (NULL, '$id', '$barcode', current_timestamp(), '0')") or die($this->conn->error);			
+			$query=$this->conn->prepare("INSERT INTO `stocks` (`stock_id`, `stock_prod_id`, `stock_barcode`, `stock_datetime`, `stock_status`,stock_expiration) VALUES (NULL, '$id', '$barcode', current_timestamp(), '0','$date')") or die($this->conn->error);			
 			if($query->execute()){
 				return true;
 			}
@@ -352,7 +353,9 @@
 			}
 		}
 		public function selectStocks(){
-			$query=$this->conn->prepare("SELECT * FROM `stocks` as a 
+			$query=$this->conn->prepare("SELECT * ,
+			DATE_FORMAT(stock_expiration, '%M %d %Y ') as stock_expiration
+			FROM `stocks` as a 
 			LEFT JOIN products as b 
 			ON a.stock_prod_id = b.prod_id
 			LEFT JOIN category as c 
@@ -415,6 +418,7 @@
 			GROUP_CONCAT(prod_name SEPARATOR ',') as grp_prodname,
 			GROUP_CONCAT(order_quantity SEPARATOR ',') as grp_quantity,
 			GROUP_CONCAT(prod_price SEPARATOR ',') as grp_price,
+			GROUP_CONCAT(prod_description SEPARATOR ',') as grp_description,
 			DATE_FORMAT(order_date, '%M %d %Y /  %h:%i:%s %p ') as order_date
 			FROM `orders` as a 
 			LEFT JOIN products as b 
@@ -564,14 +568,44 @@
 				return $result;
 			}
 		}
+		public function reportStocksBranch($user_id){
+			$user_id = htmlentities($user_id);
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty,SUM(a.order_quantity) * prod_price as totalprice
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status >1 AND a.order_user_id = '$user_id'
+			GROUP BY b.prod_id
+			") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
 		public function reportStocksMonth($month){
 			$month = htmlentities($month);
 
-			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty,SUM(a.order_quantity) * prod_price as totalprice
 			FROM `orders` as a 
 			LEFT JOIN products as b 
 			ON a.order_product_id = b.prod_id
 			WHERE a.order_status >1 AND MONTH(order_date)='$month'
+			GROUP BY b.prod_id
+			") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportStocksMonthBranch($month,$user_id){
+			$month = htmlentities($month);
+			$user_id = htmlentities($user_id);
+
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty,SUM(a.order_quantity) * prod_price as totalprice
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status >1 AND MONTH(order_date)='$month' AND a.order_user_id = '$user_id'
 			GROUP BY b.prod_id
 			") or die($this->conn->error);
 			if($query->execute()){
@@ -587,6 +621,21 @@
 			LEFT JOIN products as b 
 			ON a.order_product_id = b.prod_id
 			WHERE a.order_status >1 AND DATE(order_date)='$date'
+			GROUP BY b.prod_id
+			") or die($this->conn->error);
+			if($query->execute()){
+				$result = $query->get_result();
+				return $result;
+			}
+		}
+		public function reportStocksDateBranch($date,$user_id){
+			$date = htmlentities($date);
+			$user_id = htmlentities($user_id);
+			$query=$this->conn->prepare("SELECT *, SUM(a.order_quantity) as totalqty
+			FROM `orders` as a 
+			LEFT JOIN products as b 
+			ON a.order_product_id = b.prod_id
+			WHERE a.order_status >1 AND DATE(order_date)='$date' AND a.order_user_id = '$user_id'
 			GROUP BY b.prod_id
 			") or die($this->conn->error);
 			if($query->execute()){
@@ -618,6 +667,8 @@
 			ON a.order_cancel_record_order_id = b.order_united_id
 			LEFT JOIN products as c 
 			ON b.order_product_id = c.prod_id
+			LEFT JOIN users as d 
+            ON a.order_cancel_record_user_id = d.u_id
 			GROUP BY b.order_united_id
 			ORDER BY a.order_cancel_record_id ASC") or die($this->conn->error);
 			if($query->execute()){
