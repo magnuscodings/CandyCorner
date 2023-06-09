@@ -11,7 +11,7 @@ include("include/sidebar.php");
             <h1 >Cart</h1>
             <div class="table-responsive card">
                 <form id="cartForm">
-                <input hidden class="post" id="post" name="deleteCart" >
+                <input hidden class="post" id="post" name="checkout" >
                 <table id="example" class="table table-striped" style="width:100%">
                     <thead>
                         <tr>
@@ -44,11 +44,11 @@ include("include/sidebar.php");
                                     <td><input type="number" min="1" required class="form-control qty" name="quantity[]" id="'.$row['prod_id'].'" value="'.$row['cart_quantity'].'"></td>
                                    
                                     <td>P'.number_format($row['prod_price'],2).'</td>
-                                    <td class="subs" id="sub'.$row['prod_id'].'">P'.number_format($row['prod_price'],2).'</td>
-                                    <td ><button class="btn btn-danger remove" >Remove</button></td>
+                                    <td class="subs" id="sub'.$row['prod_id'].'">P'.number_format($row['prod_price']*$row['cart_quantity'],2).'</td>
+                                    <td ><button type="button" class="btn btn-danger togler" data-bs-toggle="modal" data-bs-target="#modal" data-id="'.$row['cart_id'].'" >Remove</button></td>
                                 </tr>';
                                 $i++;
-                                $total+=$row['prod_price'];
+                                $total+=$row['prod_price']*$row['cart_quantity'];
                             }
                         ?>
                     </tbody>
@@ -71,6 +71,32 @@ include("include/sidebar.php");
         </div>
     </main>
 
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalLabel">Action Status</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="medium" id="textForm">Do you wish to remove the item from the cart?</p>
+        <form id="delCart">
+        <input type="text" id="id" hidden  name="id" >
+        <input hidden name="deleteCart" >
+      </div>
+      <div class="modal-footer">
+        <button type="submit" name="change" class="btn btn-primary">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+
+      </div>
+       </form>
+
+    </div>
+  </div>
+</div>
+        
 <script>
     $('#nav-cart').addClass('active')
 </script>
@@ -79,6 +105,7 @@ include("include/sidebar.php");
 <script>
 
 Cart('#cartForm')
+Cart('#delCart')
 $('.qty').on('input change', function() {
         var value =parseFloat($(this).val())
         var qty = !isNaN(value) ? value : 0;
@@ -96,5 +123,8 @@ $('.qty').on('input change', function() {
         })
         $('#total').text(total.toFixed(2))
     });
-      
+
+    $('.togler').click(function(){
+    $('#id').val($(this).attr('data-id'))
+    })
 </script>

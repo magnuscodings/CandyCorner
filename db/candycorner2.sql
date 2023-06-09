@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2023 at 03:46 AM
+-- Generation Time: Jun 09, 2023 at 07:00 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -34,6 +34,13 @@ CREATE TABLE `cart` (
   `cart_quantity` int(11) NOT NULL,
   `cart_status` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`cart_id`, `cart_user_id`, `cart_product_id`, `cart_quantity`, `cart_status`) VALUES
+(16, 25, 5, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -92,7 +99,8 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`order_id`, `order_united_id`, `order_product_id`, `order_quantity`, `order_date`, `order_status`, `order_user_id`) VALUES
 (1, 517300, 3, 3, '2023-06-08 23:31:29', 5, 25),
 (2, 517300, 5, 2, '2023-06-08 23:31:29', 5, 25),
-(3, 195759, 4, 2, '2023-06-09 01:15:59', 1, 25);
+(3, 195759, 4, 2, '2023-06-09 01:15:59', 1, 25),
+(4, 740187, 4, 2, '2023-06-10 00:49:54', 0, 25);
 
 -- --------------------------------------------------------
 
@@ -350,7 +358,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cart_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -368,7 +376,7 @@ ALTER TABLE `inventory_records`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `order_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `order_cancel_records`

@@ -31,9 +31,6 @@ function AddingDetails($form){
 }
 
 function Cart($form){
-  $('.remove').click(function(){
-    $('#post').attr("name",'deleteCart')
-  })
   $('.checkout').click(function(){
     $('#post').attr("name",'checkout')
   })
